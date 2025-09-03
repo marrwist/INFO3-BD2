@@ -1,0 +1,47 @@
+```sql
+-- Exercícios baseados no Esquema 1: Curso, Instrutor, Horario, Ministrado
+
+-- 1. Mostre todos os dados da tabela Instrutor:
+SELECT * FROM Instrutor;
+
+-- 2. Nome de todos os cursos ordenados pela quantidade de vagas:
+SELECT Nome FROM Curso ORDER BY NumeroVagas ASC;
+
+-- 3. Nome dos cursos onde o número de vagas seja maior que 30, ordenado pelo número de vagas em descendente:
+SELECT Nome FROM Curso WHERE NumeroVagas > 30 ORDER BY NumeroVagas DESC;
+
+-- 4. Mostre o nome dos cursos ministrados pela instrutora "Tamires":
+SELECT c.Nome
+FROM Curso c
+JOIN Ministrado m ON c.Codigo = m.CodigoCurso
+JOIN Instrutor i ON m.CodigoInstrutor = i.Codigo
+WHERE i.Nome = 'Tamires';
+
+-- Exercícios baseados no Esquema 2: Animal, Vacina, Vacinacao
+
+-- 1. Recuperar o código dos animais que são da espécie gato ou que recebam vacina do tipo 2:
+SELECT codigo FROM Animal WHERE espécie = 'gato'
+UNION
+SELECT codigo_animal FROM Vacinacao WHERE tipo_vacina = 2;
+
+-- 2. Recuperar o nome das vacinas tomadas pelo animal de código 30:
+SELECT v.nome
+FROM Vacina v
+JOIN Vacinacao va ON v.tipo = va.tipo_vacina
+WHERE va.codigo_animal = 30;
+
+-- 3. Obter o nome e o preço da vacina mais barata cadastrada:
+SELECT nome, preço
+FROM Vacina
+ORDER BY preço ASC
+LIMIT 1;
+
+-- 4. Recuperar o tipo das vacinas que o animal de código 20 não foi vacinado:
+SELECT tipo
+FROM Vacina
+WHERE tipo NOT IN (
+    SELECT tipo_vacina
+    FROM Vacinacao
+    WHERE codigo_animal = 20
+);
+```
